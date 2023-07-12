@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ix_bootstrap_styles</RootNamespace>
+  </PropertyGroup>
+
+
+	<Target Name="SassCheck" BeforeTargets="PreBuild">
+		<Exec Command="sass --version" ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCodeSass" />
+		</Exec>
+		<Error Condition="'$(ErrorCodeSass)' != '0'" Text="dart-sass is required for this project. install globally with 'npm i -g sass' " />
+	</Target>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="sass Styles/ix-bootstrap.scss:wwwroot/css/ix-bootstrap.css Pages:Pages Shared:Shared --style compressed --load-path=Styles" />
+	</Target>
+
+	<ItemGroup>
+	  <Reference Include="Ix.Presentation.Blazor.Controls">
+	    <HintPath>..\..\..\Inxton\ix-ax\ix\src\ix.blazor\src\Ix.Presentation.Blazor.Controls\bin\Release\net6.0\publish\win-x86\Ix.Presentation.Blazor.Controls.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>
